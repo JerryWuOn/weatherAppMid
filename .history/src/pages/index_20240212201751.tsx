@@ -15,8 +15,8 @@ export default function Home() {
         setCity(e.target.value);
     }
 
-    const formatDate = (time) => {
-      return new Date(time * 1000).toLocaleDateString('en-Ca', {
+    const formatDate = (timestamp) => {
+      return new Date(timestamp * 1000).toLocaleDateString('en-Ca', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
