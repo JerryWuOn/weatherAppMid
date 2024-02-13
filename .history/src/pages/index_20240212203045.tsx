@@ -1,7 +1,9 @@
 
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useState} from "react";
+import Clouds from '../../public/images/clouds.png'
 
 export default function Home() {
   const [data,setData] = useState<IWeather | null>(null);
@@ -9,8 +11,8 @@ export default function Home() {
 
   const [city, setCity] = useState('');
 
-    const handleLocation = (jerry) => {
-        setCity(jerry.target.value);
+    const handleLocation = (e) => {
+        setCity(e.target.value);
     }
 
     const formatDate = (timestamp) => {
@@ -58,10 +60,15 @@ export default function Home() {
           <Header></Header>
         </div>
         <div className="flex flex-col justify-center text-center w-full items-center">
-          <div className="font-bold text-3xl">Jerry On</div>
-          <div className="font-bold">Current Location</div>
-          <div className="font-bold mb-6">Five day weather forecast</div>
-          <div className="font-bold mb-6">Enter City Below:</div>
+          <div className="flex flex-row mb-10">
+            <div className="font-bold text-4xl">Jerry On</div>
+            <div className="pl-12">
+              <Image src={Clouds} alt="clouds" width={200}/>
+            </div>
+          </div>
+          <div className="font-bold text-xl">Current Location</div>
+          <div className="font-bold mb-6 text-xl">Five day weather forecast</div>
+          <div className="font-bold mb-6 text-md">Enter City Below:</div>
           <form onSubmit={handleSubmit}>
             <input className="rounded-xl h-12 w-48 p-4 mb-6" type="text" placeholder="search..." value={city} onChange={handleLocation}/>
           </form>
@@ -70,37 +77,40 @@ export default function Home() {
             <div className="flex flex-col w-full px-12 ">
               {data.weather.map((d, index)=> (
                 <div key={index}>
-                  <div className="flex w-full">
-                    <h1 className="text-4xl">{city}</h1>
+                  <div className="flex w-full flex-start items-start">
+                    <div className="flex flex-col">
+                      <h1 className="text-6xl">{city}</h1>
+                    </div>
                   </div>
-                  <h1 className="flex flex-start">Weather: {d.main}</h1>
+                  <h1 className="flex flex-start text-2xl">Current Weather: {d.main}</h1>
+                  <h1 className="flex flex-start text-2xl">Temperature: {data.main.temp.toFixed(1)}</h1>
+                  <h1 className="flex flex-start text-2xl">Wind: {data.wind.speed.toFixed(1)}</h1>
+                  <h1 className="flex flex-start text-2xl">Date: {formatDate(data.dt)}</h1>
                 </div>
               ))}
-              <h1>Temperature: {data.main.temp}</h1>
-              <h1>Wind: {data.wind.speed}</h1>
-              <h1>Date: {formatDate(data.dt)}</h1>
             </div>
           )}
 
           {forcast && forcast.list && (
-            <div>
-              {forcast.list.slice(0,1).map((d, index)=> (
+            <div className="flex flex-row w-full px-12 mt-12 gap-x-6">
+              <h1 className="flex flex-start text-2xl pr-24">5 Day Forecast</h1>
+              {forcast.list.slice(0,5).map((d, index)=> (
                 <div key={index}>
-                  <h1>Temp: {d.main.temp.toFixed(1)}</h1>
+                  <h1 className="flex text-md">Temperature in Celsius: {d.main.temp.toFixed(1)}</h1>
                   {d.weather.map((d, index)=> (
                 <div key={index}>
-                  <h1>Weather: {d.main}</h1>
+                  <h1 className="flex text-md">Weather: {d.main}</h1>
                   
                 </div>
                 
               ))}
               {d.weather.map((d, index)=> (
                 <div key={index}>
-                  <h1>Description: {d.description}</h1>
+                  <h1 className="flex text-md">Description: {d.description}</h1>
                 </div>
               ))}
-                <h1>Wind Speed: {d.wind.speed}</h1>
-                <h1>Date: {formatDate(d.dt)}</h1>
+                <h1 className="flex text-md">Wind Speed: {d.wind.speed}</h1>
+                <h1 className="flex text-md mt-12">Date: {formatDate(d.dt)}</h1>
                 </div>
               ))}
               

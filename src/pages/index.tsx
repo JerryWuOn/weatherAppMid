@@ -15,16 +15,16 @@ export default function Home() {
         setCity(e.target.value);
     }
 
-    const formatDate = (time) => {
-      return new Date(time * 1000).toLocaleDateString('en-Ca', {
+    const formatDate = (timestamp) => {
+      return new Date(timestamp * 1000).toLocaleDateString('en-Ca', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
       });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (jerry) => {
+        jerry.preventDefault();
         const apiKey = "fa86376a0b2615057a19374755185488"
         const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
         const API_fiveDay = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`
